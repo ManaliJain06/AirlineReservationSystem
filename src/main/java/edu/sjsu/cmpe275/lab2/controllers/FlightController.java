@@ -66,7 +66,7 @@ public class FlightController {
             if (flight != null) {
                 return new ResponseEntity<>(flight, HttpStatus.OK);
             } else {
-                BadRequestDTO badRequest = BaseController.formBadRequest("400", "Sorry, due to some issue, flight couldn't be updated.");
+                BadRequestDTO badRequest = BaseController.formBadRequest("400", "Capacity cannot be updated to a number less than the number of reservations for the flight");
                 return new ResponseEntity<>(badRequest, HttpStatus.BAD_REQUEST);
             }
         }

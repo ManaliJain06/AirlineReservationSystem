@@ -111,43 +111,74 @@ public class FlightServiceImpl implements FlightService{
     }
 
     @Override
-    public Object updateFlight(String flightNumber,String price, String from, String to, String departureTime, String arrivalTime, String description,
+    public Object updateFlight(String flightNumber,String price, String origin, String destination, String departureTime, String arrivalTime, String description,
                                String capacity,
                                String model, String manufacturer, String year) {
 
+       // long passengerId = Long.parseLong(id);
         FlightDAO flightEntity = FlightRepository.findByFlightnumber(Long.parseLong(flightNumber));
         List<ReservationDAO> reservationEntities = flightEntity.getReservations();
-        List<PassengerDAO> passengerEntities = new ArrayList<>();
-        for(ReservationDAO reservationEntity: reservationEntities)
-        {
-            passengerEntities.add(reservationEntity.getPassenger());
+        // update the details.
+        String seatsLeft = capacity;
+        int size=0; // to calculate the size of the list reservationEntities, to find the number of reservations for that flight.
+        for (ReservationDAO reservationEntity : reservationEntities) {
+           size++;
         }
-        List<PassengerDTO> passengerList = new ArrayList<>();
-
-        for(PassengerDAO passengerEntity: passengerEntities)
-        {
-            passengerList.add(BaseServiceImpl.mapPassengerDAOtoDTO(passengerEntity));
+        if(flightEntity !=null) {
+        if(Integer.parseInt(capacity) < size){  //if capapcity id less than the number of reservations throw 400 error.
+            System.out.println("hello capacity is less than number of reservations for that particular flight:" + size);
+            String msg = "Capacity cannot be updated to a number less than the number of reservations for the flight" ;
+            BadRequestDTO badRequestDTO = BaseController.formBadRequest("400",msg);
+            return badRequestDTO;
         }
 
-        PlaneDTO plane = new PlaneDTO();
+        else {
+            System.out.println("hello flightEntitiy:" + flightEntity);
+            PlaneDAO planeEntity = new PlaneDAO(Long.parseLong(capacity), model, manufacturer, year);
+            seatsLeft
+            FlightDAO flightDAO = new FlightDAO(Long.valueOf(flightNumber), Double.parseDouble(price), origin, destination,
+                    departureTime, arrivalTime, Long.valueOf(seatsLeft),
+                    description, planeEntity);
+            // This save method used here as update. Internally, it merges if the id exists.
+            flightDAO = FlightRepository.save(flightDAO);
 
-        PlaneDTO plane1 = new PlaneDTO(flightEntity.getPlaneEntity().getCapacity().toString(),
-                flightEntity.getPlaneEntity().getModel(),
-                flightEntity.getPlaneEntity().getManufacturer(),
-                flightEntity.getPlaneEntity().getYear().toString());
+            return BaseServiceImpl.mapFlightDAOToDTO(flightDAO);
+
+
+         /*   List<ReservationDAO> reservationEntities = flightEntity.getReservations();
+            List<PassengerDAO> passengerEntities = new ArrayList<>();
+            for (ReservationDAO reservationEntity : reservationEntities) {
+                passengerEntities.add(reservationEntity.getPassenger());
+            }
+            List<PassengerDTO> passengerList = new ArrayList<>();
+
+            for (PassengerDAO passengerEntity : passengerEntities) {
+                passengerList.add(BaseServiceImpl.mapPassengerDAOtoDTO(passengerEntity));
+            }
+
+            PlaneDTO plane = new PlaneDTO();
+
+            PlaneDTO plane1 = new PlaneDTO(flightDAO.getPlaneEntity().getCapacity().toString(),
+                    flightDAO.getPlaneEntity().getModel(),
+                    flightDAO.getPlaneEntity().getManufacturer(),
+                    flightDAO.getPlaneEntity().getYear().toString());
 //        Passengers passengers = new Passengers(passengerList);
-        FlightDTO flight = new FlightDTO(flightEntity.getFlightnumber().toString(),
-                flightEntity.getPrice().toString(),
-                flightEntity.getOrigin(),
-                flightEntity.getDestination(),
-                flightEntity.getDeparturetime(),
-                flightEntity.getArrivaltime(),
-                flightEntity.getDescription(),
-                plane1,
-                passengerList);
+            FlightDTO flight = new FlightDTO(flightDAO.getFlightnumber().toString(),
+                    flightDAO.getPrice().toString(),
+                    flightDAO.getOrigin(),
+                    flightDAO.getDestination(),
+                    flightDAO.getDeparturetime(),
+                    flightDAO.getArrivaltime(),
+                    flightDAO.getDescription(),
+                    plane1,
+                    passengerList);
 
-        return flight;
-        //return null;
+            return flight;
+            //return null;*/
+        }
+        }
+        else
+            return null;
     }
 
     @Override
