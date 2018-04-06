@@ -7,7 +7,7 @@ import java.util.List;
 public class FlightDAO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name="flight_number")
     private Long flightnumber;
@@ -47,9 +47,10 @@ public class FlightDAO {
         this.reservations = reservations;
     }
 
-    public FlightDAO(Double price, String origin, String destination, String departuretime,
+    public FlightDAO(Long flightnumber, Double price, String origin, String destination, String departuretime,
                      String arrivaltime, Long seatsleft, String description, PlaneDAO planeDAO,
                      List<ReservationDAO> reservations) {
+        this.flightnumber = flightnumber;
         this.price = price;
         this.origin = origin;
         this.destination = destination;
@@ -62,8 +63,9 @@ public class FlightDAO {
         this.reservations = reservations;
     }
 
-    public FlightDAO(Double price, String origin, String destination, String departuretime,
+    public FlightDAO(Long flightnumber,Double price, String origin, String destination, String departuretime,
                      String arrivaltime, Long seatsleft, String description, PlaneDAO planeDAO) {
+        this.flightnumber = flightnumber;
         this.price = price;
         this.origin = origin;
         this.destination = destination;  //changed by hanisha

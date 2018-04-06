@@ -21,7 +21,7 @@ public interface FlightService {
      * @param description the Flight's description.
      * @return the Flight dto
      */
-    public Object createFlight(String price, String from, String to, String departureTime, String arrivalTime, String description, String capacity,
+    public Object createFlight(String flightNumber,String price, String from, String to, String departureTime, String arrivalTime, String description, String capacity,
                                String model, String manufacturer, String year);
 
     /**
@@ -35,7 +35,9 @@ public interface FlightService {
      * @param plane the Flight's plane.
      * @return the Flight dto
      */
-    //   public Passenger updateFlight(String price, String from, String to, String departureTime, String arrivalTime, String description, Plane plane);
+       public Object updateFlight(String flightNumber, String price, String from, String to, String departureTime, String arrivalTime, String description,
+                                  String capacity,
+                                  String model, String manufacturer, String year);
 
     /**
      * This method is used to delete the information about Flight and his/her reservation details.

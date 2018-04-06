@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.lab2.DTO;
 
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -8,12 +9,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName("passenger")
+@JsonTypeName("flight")
 @JsonTypeInfo(include= JsonTypeInfo.As.WRAPPER_OBJECT,use= JsonTypeInfo.Id.NAME)
-@XmlRootElement(name = "flight") 
-@XmlType(propOrder = {"flightNumber", "price", "from", "to", "departureTime", "arrivalTime", "description","seatsLeft", "planeDTO", "passengerDTOS"})
+@XmlRootElement(name = "flight")
+@XmlType(propOrder = {"flightNumber", "price", "from", "to", "departureTime", "arrivalTime", "description","seatsLeft", "plane", "passengers"})
 public class FlightDTO {
-	
+
 	private String flightNumber;
 	private String price;
 	private String from;
@@ -125,11 +126,11 @@ public class FlightDTO {
 	}
 
 	@JsonInclude(Include.NON_NULL)
-	public List<PassengerDTO> getPassengerDTOS() {
+	public List<PassengerDTO> getPassengers() {
 		return passengers;
 	}
-
-	public void setPassenger(List<PassengerDTO> passengers) {
+	@XmlElement
+	public void setPassengers(List<PassengerDTO> passengers) {
 		this.passengers = passengers;
 	};
 

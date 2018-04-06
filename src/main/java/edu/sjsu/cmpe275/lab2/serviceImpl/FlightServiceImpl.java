@@ -78,34 +78,71 @@ public class FlightServiceImpl implements FlightService{
         return flight;
     }
     @Override
-    public Object createFlight(String price, String origin, String destination, String departureTime, String arrivalTime, String description, String capacity,
+    public Object createFlight(String flightNumber, String price, String origin, String destination,
+                               String departureTime, String arrivalTime, String description, String capacity,
                                String model, String manufacturer, String year) {
         String seatsLeft = capacity;
         PlaneDAO planeEntity = new PlaneDAO(Long.parseLong(capacity),model,manufacturer,year);
-        FlightDAO flightEntity = new FlightDAO(Double.parseDouble(price), origin, destination, departureTime,arrivalTime, Long.valueOf(seatsLeft),
-                description, planeEntity);
-        flightEntity = FlightRepository.save(flightEntity);
+            FlightDAO flightEntity = new FlightDAO(Long.valueOf(flightNumber),Double.parseDouble(price), origin, destination,
+                    departureTime,arrivalTime, Long.valueOf(seatsLeft),
+                    description, planeEntity);
+            flightEntity = FlightRepository.save(flightEntity);
 
         //ReservationServiceImpl.convertFlightEntityToDto(flightEntity);
 
-        /*Plane plane1 = new Plane(flightEntity.getPlaneEntity().getCapacity().toString(),
+        PlaneDTO plane1 = new PlaneDTO(flightEntity.getPlaneEntity().getCapacity().toString(),
                 flightEntity.getPlaneEntity().getModel(),
                 flightEntity.getPlaneEntity().getManufacturer(),
                 flightEntity.getPlaneEntity().getYear().toString());
-        List<Passenger> passengerList = new ArrayList<>();  //flight has just been created, hence the passengers list will be empty
+        List<PassengerDTO> passengerList = new ArrayList<>();  //flight has just been created, hence the passengers list will be empty
         Passengers passengers = new Passengers(passengerList);
-        Flight flight = new Flight(flightEntity.getFlightnumber().toString(),
+        FlightDTO flight = new FlightDTO(flightEntity.getFlightnumber().toString(),
                 flightEntity.getPrice().toString(),
-                flightEntity.getFrom(),
-                flightEntity.getTo(),
+                flightEntity.getOrigin(),
+                flightEntity.getDestination(),
                 flightEntity.getDeparturetime(),
                 flightEntity.getArrivaltime(),
                 flightEntity.getDescription(),
                 plane1,
-                passengers);*/
+                passengerList);
 
-        FlightDTO flight = BaseServiceImpl.mapFlightDAOToDTO(flightEntity);
+     //   FlightDTO flight = BaseServiceImpl.mapFlightDAOToDTO(flightEntity);
         return flight;
+    }
+
+    @Override
+    public Object updateFlight(String flightNumber,String price, String from, String to, String departureTime, String arrivalTime, String description,
+                               String capacity,
+                               String model, String manufacturer, String year) {
+
+        FlightDAO flightEntity = FlightRepository.findByFlightnumber(Long.parseLong(id));
+
+        List<PassengerDTO> passengerList = new ArrayList<>();
+
+        for(PassengerDAO passengerEntity: passengerEntities)
+        {
+            passengerList.add(BaseServiceImpl.mapPassengerDAOtoDTO(passengerEntity));
+        }
+
+        PlaneDTO plane = new PlaneDTO();
+
+        PlaneDTO plane1 = new PlaneDTO(flightEntity.getPlaneEntity().getCapacity().toString(),
+                flightEntity.getPlaneEntity().getModel(),
+                flightEntity.getPlaneEntity().getManufacturer(),
+                flightEntity.getPlaneEntity().getYear().toString());
+//        Passengers passengers = new Passengers(passengerList);
+        FlightDTO flight = new FlightDTO(flightEntity.getFlightnumber().toString(),
+                flightEntity.getPrice().toString(),
+                flightEntity.getOrigin(),
+                flightEntity.getDestination(),
+                flightEntity.getDeparturetime(),
+                flightEntity.getArrivaltime(),
+                flightEntity.getDescription(),
+                plane1,
+                passengerList);
+
+        return flight;
+        return null;
     }
 
     @Override
