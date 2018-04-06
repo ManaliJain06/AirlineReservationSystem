@@ -29,7 +29,7 @@ public class FlightDTO {
 	public FlightDTO() {}
 
 	public FlightDTO(String flightNumber, String price, String from, String to, String departureTime, String arrivalTime,
-					 String description, PlaneDTO plane, List<PassengerDTO> passengers) {
+					 String description, String seatsLeft,PlaneDTO plane, List<PassengerDTO> passengers) {
 		super();
 		this.flightNumber = flightNumber;
 		this.price = price;
@@ -38,6 +38,7 @@ public class FlightDTO {
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
 		this.description = description;
+		this.seatsLeft = seatsLeft;
 		this.plane = plane;
 		this.passengers = passengers;
 	}

@@ -72,6 +72,7 @@ public class FlightServiceImpl implements FlightService{
                 flightEntity.getDeparturetime(),
                 flightEntity.getArrivaltime(),
                 flightEntity.getDescription(),
+                flightEntity.getSeatsleft().toString(),
                 plane1,
                 passengerList);
 
@@ -103,6 +104,7 @@ public class FlightServiceImpl implements FlightService{
                 flightEntity.getDeparturetime(),
                 flightEntity.getArrivaltime(),
                 flightEntity.getDescription(),
+                flightEntity.getSeatsleft().toString(),
                 plane1,
                 passengerList);
 
@@ -116,10 +118,12 @@ public class FlightServiceImpl implements FlightService{
                                String model, String manufacturer, String year) {
 
        // long passengerId = Long.parseLong(id);
+      //   long Capacity ;
         FlightDAO flightEntity = FlightRepository.findByFlightnumber(Long.parseLong(flightNumber));
         List<ReservationDAO> reservationEntities = flightEntity.getReservations();
         // update the details.
-        String seatsLeft = capacity;
+       // long seatsLeft ;
+
         int size=0; // to calculate the size of the list reservationEntities, to find the number of reservations for that flight.
         for (ReservationDAO reservationEntity : reservationEntities) {
            size++;
@@ -135,17 +139,24 @@ public class FlightServiceImpl implements FlightService{
         else {
             System.out.println("hello flightEntitiy:" + flightEntity);
             PlaneDAO planeEntity = new PlaneDAO(Long.parseLong(capacity), model, manufacturer, year);
-            
+            long Capacity = flightEntity.getPlaneEntity().getCapacity(); //capacity there in the particular flight before update
+            long seatsLeft =flightEntity.getSeatsleft();
+            long capacityDiff = Long.parseLong(capacity)-Capacity;         //   long SeatsLeft = Long.valueOf(seatsLeft);
+               if(seatsLeft!=0 && capacityDiff > 0 ) //if seatsLeft is zero and difference is negative, the seatsLEft will be updated to negative, hence exception will be thrown
+               {
+                   seatsLeft = Long.valueOf(seatsLeft) + capacityDiff; //i update capacity to 10 from 5, seatsLeft is changed from 5 to 0
+               }
+
             FlightDAO flightDAO = new FlightDAO(Long.valueOf(flightNumber), Double.parseDouble(price), origin, destination,
-                    departureTime, arrivalTime, Long.valueOf(seatsLeft),
+                    departureTime, arrivalTime, seatsLeft,
                     description, planeEntity);
             // This save method used here as update. Internally, it merges if the id exists.
             flightDAO = FlightRepository.save(flightDAO);
 
-            return BaseServiceImpl.mapFlightDAOToDTO(flightDAO);
+           // return BaseServiceImpl.mapFlightDAOToDTO(flightDAO);
 
 
-         /*   List<ReservationDAO> reservationEntities = flightEntity.getReservations();
+         //   List<ReservationDAO> reservationEntities = flightEntity.getReservations();
             List<PassengerDAO> passengerEntities = new ArrayList<>();
             for (ReservationDAO reservationEntity : reservationEntities) {
                 passengerEntities.add(reservationEntity.getPassenger());
@@ -170,6 +181,7 @@ public class FlightServiceImpl implements FlightService{
                     flightDAO.getDeparturetime(),
                     flightDAO.getArrivaltime(),
                     flightDAO.getDescription(),
+                    flightDAO.getSeatsleft().toString(),
                     plane1,
                     passengerList);
 
