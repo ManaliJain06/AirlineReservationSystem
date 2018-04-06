@@ -115,8 +115,13 @@ public class FlightServiceImpl implements FlightService{
                                String capacity,
                                String model, String manufacturer, String year) {
 
-        FlightDAO flightEntity = FlightRepository.findByFlightnumber(Long.parseLong(id));
-
+        FlightDAO flightEntity = FlightRepository.findByFlightnumber(Long.parseLong(flightNumber));
+        List<ReservationDAO> reservationEntities = flightEntity.getReservations();
+        List<PassengerDAO> passengerEntities = new ArrayList<>();
+        for(ReservationDAO reservationEntity: reservationEntities)
+        {
+            passengerEntities.add(reservationEntity.getPassenger());
+        }
         List<PassengerDTO> passengerList = new ArrayList<>();
 
         for(PassengerDAO passengerEntity: passengerEntities)
@@ -142,7 +147,7 @@ public class FlightServiceImpl implements FlightService{
                 passengerList);
 
         return flight;
-        return null;
+        //return null;
     }
 
     @Override
