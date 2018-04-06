@@ -135,7 +135,7 @@ public class FlightServiceImpl implements FlightService{
         else {
             System.out.println("hello flightEntitiy:" + flightEntity);
             PlaneDAO planeEntity = new PlaneDAO(Long.parseLong(capacity), model, manufacturer, year);
-            seatsLeft
+            
             FlightDAO flightDAO = new FlightDAO(Long.valueOf(flightNumber), Double.parseDouble(price), origin, destination,
                     departureTime, arrivalTime, Long.valueOf(seatsLeft),
                     description, planeEntity);
