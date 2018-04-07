@@ -13,17 +13,6 @@ public class ReservationDAO {
     private Integer reservationnumber;
 
     private Double price;
-    //private Integer passengerid;
-/*
-
-    @ManyToMany(mappedBy = "reservations")
-    private List<FlightEntity> flights;
-*/
-
-    public ReservationDAO(Double price, PassengerDAO passenger) {
-        this.price = price;
-        this.passenger = passenger;
-    }
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "passenger_id")

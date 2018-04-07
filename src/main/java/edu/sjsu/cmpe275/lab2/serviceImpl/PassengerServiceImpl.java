@@ -66,29 +66,19 @@ public class PassengerServiceImpl implements PassengerService {
 			}
 		} else {
 			//case when the user is updating his number
-				updatedPassengerDAO = saveExistingPassenger(passengerToUpdate);
-				return updatedPassengerDAO;
+			updatedPassengerDAO = saveExistingPassenger(passengerToUpdate);
+			return updatedPassengerDAO;
 		}
 	}
 
 	private PassengerDTO saveExistingPassenger(PassengerDAO passengerToUpdate){
 		PassengerDAO updatedPassengerDAO = passengerRepository.save(passengerToUpdate);
+		return BaseServiceImpl.mapPassengerDAOtoDTO(updatedPassengerDAO);
 
-		PassengerDTO updatedPassenger = new PassengerDTO();
-		updatedPassenger.setId(Integer.toString(updatedPassengerDAO.getId()));
-		updatedPassenger.setFirstname(updatedPassengerDAO.getFirstname());
-		updatedPassenger.setLastname(updatedPassengerDAO.getLastname());
-		updatedPassenger.setAge(Integer.toString(updatedPassengerDAO.getAge()));
-		updatedPassenger.setGender(updatedPassengerDAO.getGender());
-		updatedPassenger.setPhone(updatedPassengerDAO.getPhone());
-		updatedPassenger.setReservations(null);
-		return updatedPassenger;
 	}
 
 	@Override
 	public void deletePassenger(int id){
 		passengerRepository.deleteById(id);
 	}
-
-	
 }
