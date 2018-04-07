@@ -12,6 +12,10 @@ public interface FlightRepository extends JpaRepository<FlightDAO, String> {
     FlightDAO findByFlightnumber(String flightnumber);
     List<FlightDAO> findByOrigin(String origin);
     List<FlightDAO> findByDestination(String destination);
+    FlightDAO deleteByFlightnumber(Integer flightnumber);
+
+    /*ReservationEntity deleteReservationEntityByReservationnumber(Integer reservationnumber);
+    int deleteByReservationnumber(Integer reservationnumber);*/
 
 //    @Modifying(clearAutomatically = true)
 //    @Query(value = "UPDATE FlightEntity f SET f.seatsleft = :seatsleft WHERE f.flightnumber = :flightnumber")

@@ -21,6 +21,40 @@ public class FlightServiceImpl implements FlightService{
 
     @Autowired
     private ReservationRepository reservationRepository;
+   /*
+   When flights are updated, this function checks if the current flight being updated and the flights already reserved are overlapping for a passenger
+    */
+    private Boolean timesOverlap(Set<FlightDAO> previouslyBookedFlights, Set<FlightDAO> flightToBeUpdated)
+    {
+        Date min = new Date();
+        Date max = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd-HH");
+
+        for(FlightDAO flightEntity: flightToBeUpdated)
+        {
+            try {
+                Date departureTime = dateFormat.parse(flightEntity.getDeparturetime());
+                Date arrivalTime = dateFormat.parse(flightEntity.getArrivaltime());
+
+                for(FlightDAO flight: previouslyBookedFlights)
+                {
+                    min = dateFormat.parse(flight.getDeparturetime());
+                    max = dateFormat.parse(flight.getArrivaltime());
+                    Calendar calendar = GregorianCalendar.getInstance();
+                    calendar.setTime(max);
+                    calendar.add(Calendar.HOUR, 1);
+                    max = calendar.getTime();
+
+                    if((departureTime.after(min) && departureTime.before(max)) ||
+                            (arrivalTime.after(min) && arrivalTime.before(max)))
+                        return true;
+                }
+            } catch (ParseException e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 
     /**
      * This method is used to fetch the information about Passenger and his/her
@@ -30,6 +64,7 @@ public class FlightServiceImpl implements FlightService{
      *            the Flight's Id
      * @return the Flight dto
      */
+
     @Override
     public Object getFlight(String id) {
 
@@ -90,26 +125,33 @@ public class FlightServiceImpl implements FlightService{
             flightEntity = FlightRepository.save(flightEntity);
 
         //ReservationServiceImpl.convertFlightEntityToDto(flightEntity);
+        if(flightEntity != null) {
+            PlaneDTO plane1 = new PlaneDTO(flightEntity.getPlaneEntity().getCapacity().toString(),
+                    flightEntity.getPlaneEntity().getModel(),
+                    flightEntity.getPlaneEntity().getManufacturer(),
+                    flightEntity.getPlaneEntity().getYear().toString());
+            List<PassengerDTO> passengerList = new ArrayList<>();  //flight has just been created, hence the passengers list will be empty
+            Passengers passengers = new Passengers(passengerList);
+            FlightDTO flight = new FlightDTO(flightEntity.getFlightnumber().toString(),
+                    flightEntity.getPrice().toString(),
+                    flightEntity.getOrigin(),
+                    flightEntity.getDestination(),
+                    flightEntity.getDeparturetime(),
+                    flightEntity.getArrivaltime(),
+                    flightEntity.getDescription(),
+                    flightEntity.getSeatsleft().toString(),
+                    plane1,
+                    passengerList);
 
-        PlaneDTO plane1 = new PlaneDTO(flightEntity.getPlaneEntity().getCapacity().toString(),
-                flightEntity.getPlaneEntity().getModel(),
-                flightEntity.getPlaneEntity().getManufacturer(),
-                flightEntity.getPlaneEntity().getYear().toString());
-        List<PassengerDTO> passengerList = new ArrayList<>();  //flight has just been created, hence the passengers list will be empty
-        Passengers passengers = new Passengers(passengerList);
-        FlightDTO flight = new FlightDTO(flightEntity.getFlightnumber().toString(),
-                flightEntity.getPrice().toString(),
-                flightEntity.getOrigin(),
-                flightEntity.getDestination(),
-                flightEntity.getDeparturetime(),
-                flightEntity.getArrivaltime(),
-                flightEntity.getDescription(),
-                flightEntity.getSeatsleft().toString(),
-                plane1,
-                passengerList);
-
-     //   FlightDTO flight = BaseServiceImpl.mapFlightDAOToDTO(flightEntity);
-        return flight;
+            //   FlightDTO flight = BaseServiceImpl.mapFlightDAOToDTO(flightEntity);
+            return flight;
+        }
+        else{
+            System.out.println("hello creation of the flight could not be successful:" );
+            String msg = "creation of the flight could not be successful" ;
+            BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",msg);
+            return badRequestDTO;
+        }
     }
 
     @Override
@@ -120,13 +162,17 @@ public class FlightServiceImpl implements FlightService{
        // long passengerId = Long.parseLong(id);
       //   long Capacity ;
         FlightDAO flightEntity = FlightRepository.findByFlightnumber(flightNumber);
+        Set<FlightDAO> flightToBeUpdated = new HashSet<>();
+        flightToBeUpdated.add(flightEntity);
         List<ReservationDAO> reservationEntities = flightEntity.getReservations();
         // update the details.
        // long seatsLeft ;
-         /* Set<FlightDAO> flights = new ArrayList<>();
+        Set<FlightDAO> previouslyBookedFlights = new HashSet<>();
         for (ReservationDAO reservationEntity : reservationEntities) {
-            flights.add(reservationEntity.getFlights());
-        }*/
+            List<FlightDAO> currentReservedFlights=reservationEntity.getFlights();
+            for(FlightDAO flight: currentReservedFlights)
+                previouslyBookedFlights.add(flight);
+        }
 
         int size=0; // to calculate the size of the list reservationEntities, to find the number of reservations for that flight.
         for (ReservationDAO reservationEntity : reservationEntities) {
@@ -146,11 +192,24 @@ public class FlightServiceImpl implements FlightService{
             long Capacity = flightEntity.getPlaneEntity().getCapacity(); //capacity there in the particular flight before update
             long seatsLeft =flightEntity.getSeatsleft();
             long capacityDiff = Long.parseLong(capacity)-Capacity;         //   long SeatsLeft = Long.valueOf(seatsLeft);
-               if(seatsLeft!=0 && capacityDiff > 0 ) //if seatsLeft is zero and difference is negative, the seatsLEft will be updated to negative, hence exception will be thrown
+               if(capacityDiff< 0 && seatsLeft==0 ) //if seatsLeft is zero and difference is negative, the seatsLEft will be updated to negative, hence exception will be thrown
                {
+                   String msg = "seats left error" ;
+                   BadRequestDTO badRequestDTO = BaseController.formBadRequest("400",msg);
+                   return badRequestDTO;
+                  }
+               else{
                    seatsLeft = Long.valueOf(seatsLeft) + capacityDiff; //i update capacity to 10 from 5, seatsLeft is changed from 5 to 0
                }
 
+            if(timesOverlap(previouslyBookedFlights, flightToBeUpdated))
+             //   return new BadRequestDTO("404","Reservation failed because the flights' times overlap with each other or any other previously booked flight");
+            {
+                System.out.println("hello overlapping of reservations timings for that particular flight:" + size);
+                String msg = "the flight cannot be updated with the given arrival time, since the the times overlap with the other flights for the passenger" ;
+                BadRequestDTO badRequestDTO = BaseController.formBadRequest("400",msg);
+                return badRequestDTO;
+            }
             FlightDAO flightDAO = new FlightDAO(flightNumber, Double.parseDouble(price), origin, destination,
                     departureTime, arrivalTime, seatsLeft,
                     description, planeEntity);
@@ -195,6 +254,41 @@ public class FlightServiceImpl implements FlightService{
         }
         else
             return null;
+    }
+
+    @Override
+    public Object deleteFlight(String flightNumber)
+    {
+        FlightDAO FlightEntityToBeDeleted = FlightRepository.findByFlightnumber(flightNumber);
+
+
+        if(FlightEntityToBeDeleted == null)
+           // return new BadRequest("404", "flight with number "+flightNumber+" does not exist");
+        {
+            String msg = "the flight cannot be deleted, since the flight number" + flightNumber + "does not exist" ;
+            BadRequestDTO badRequestDTO = BaseController.formBadRequest("400",msg);
+            return badRequestDTO;
+        }
+
+        List<ReservationDAO> reservationEntities = FlightEntityToBeDeleted.getReservations();
+        //Set<FlightDAO> flightEntitiesBookedByTheReservation = reservationEntities.getFlights();
+        int size = reservationEntities.size();
+
+        if(size > 0){
+            System.out.println("the flight cannot be deleted, since the flight number" + flightNumber + "does not exist");
+            String msg = "the flight cannot be deleted, since the flight number" + flightNumber + "does not exist" ;
+            BadRequestDTO badRequestDTO = BaseController.formBadRequest("400",msg);
+            return badRequestDTO;
+        }
+        else{
+
+           /* FlightEntityToBeDeleted =*/ FlightRepository.deleteById(flightNumber);
+          //  return new ResponseDTO("200", "flight with number is canceled successfully");
+            System.out.println("the flight number" + flightNumber + "is deleted");
+            String msg = "the flight number" + flightNumber + "is deleted" ;
+            ResponseDTO responseDTO = BaseController.formSuccessResponse("400",msg);
+            return responseDTO;
+        }
     }
 
     @Override
