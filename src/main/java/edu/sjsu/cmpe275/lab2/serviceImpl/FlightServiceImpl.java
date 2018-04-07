@@ -33,7 +33,7 @@ public class FlightServiceImpl implements FlightService{
     @Override
     public Object getFlight(String id) {
 
-        FlightDAO flightEntity = FlightRepository.findByFlightnumber(Long.parseLong(id));
+        FlightDAO flightEntity = FlightRepository.findByFlightnumber(id);
         PlaneDAO planeEntity;
         if(flightEntity == null)
         {
@@ -119,10 +119,14 @@ public class FlightServiceImpl implements FlightService{
 
        // long passengerId = Long.parseLong(id);
       //   long Capacity ;
-        FlightDAO flightEntity = FlightRepository.findByFlightnumber(Long.parseLong(flightNumber));
+        FlightDAO flightEntity = FlightRepository.findByFlightnumber(flightNumber);
         List<ReservationDAO> reservationEntities = flightEntity.getReservations();
         // update the details.
        // long seatsLeft ;
+         /* Set<FlightDAO> flights = new ArrayList<>();
+        for (ReservationDAO reservationEntity : reservationEntities) {
+            flights.add(reservationEntity.getFlights());
+        }*/
 
         int size=0; // to calculate the size of the list reservationEntities, to find the number of reservations for that flight.
         for (ReservationDAO reservationEntity : reservationEntities) {
@@ -196,7 +200,7 @@ public class FlightServiceImpl implements FlightService{
     @Override
     public FlightDTO findFlightById(String id) {
 
-        Optional<FlightDAO> entity = FlightRepository.findById(Long.parseLong(id));
+        Optional<FlightDAO> entity = FlightRepository.findById(id);
         if(entity.isPresent()) {
             return BaseServiceImpl.mapFlightDAOToDTO(entity.get());
         } else {

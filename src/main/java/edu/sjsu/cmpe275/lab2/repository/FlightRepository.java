@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param;
 import edu.sjsu.cmpe275.lab2.DAO.FlightDAO;
 import java.util.List;
 
-public interface FlightRepository extends JpaRepository<FlightDAO, Long> {
+public interface FlightRepository extends JpaRepository<FlightDAO, String> {
 
-    FlightDAO findByFlightnumber(Long flightnumber);
+    FlightDAO findByFlightnumber(String flightnumber);
     List<FlightDAO> findByOrigin(String origin);
     List<FlightDAO> findByDestination(String destination);
 
