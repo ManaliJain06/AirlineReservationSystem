@@ -12,13 +12,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("flight")
 @JsonTypeInfo(include= JsonTypeInfo.As.WRAPPER_OBJECT,use= JsonTypeInfo.Id.NAME)
 @XmlRootElement(name = "flight")
-@XmlType(propOrder = {"flightNumber", "price", "from", "to", "departureTime", "arrivalTime", "description","seatsLeft", "plane", "passengers"})
+@XmlType(propOrder = {"flightNumber", "price", "origin", "destination", "departureTime", "arrivalTime", "description","seatsLeft", "plane", "passengers"})
 public class FlightDTO {
 
 	private String flightNumber;
 	private String price;
-	private String from;
-	private String to;
+	private String origin;
+	private String destination;
 	private String departureTime;
 	private String arrivalTime;
 	private String description;
@@ -33,8 +33,8 @@ public class FlightDTO {
 		super();
 		this.flightNumber = flightNumber;
 		this.price = price;
-		this.from = from;
-		this.to = to;
+		this.origin = from;
+		this.destination = to;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
 		this.description = description;
@@ -46,8 +46,8 @@ public class FlightDTO {
 				  String seatsLeft, String description, PlaneDTO plane) {
 		this.flightNumber = flightNumber;
 		this.price = price;
-		this.from = from;
-		this.to = to;
+		this.origin = from;
+		this.destination = to;
 		this.departureTime = departureTime;
 		this.arrivalTime = arrivalTime;
 		this.seatsLeft = seatsLeft;
@@ -83,18 +83,18 @@ public class FlightDTO {
 		this.price = price;
 	}
 
-	public String getFrom() {
-		return from;
+	public String getOrigin() {
+		return origin;
 	}
-	public void setFrom(String from) {
-		this.from = from;
+	public void setOrigin(String from) {
+		this.origin = from;
 	}
 
-	public String getTo() {
-		return to;
+	public String getDestination() {
+		return destination;
 	}
-	public void setTo(String to) {
-		this.to = to;
+	public void setDestination(String to) {
+		this.destination = to;
 	}
 
 	public String getDepartureTime() {

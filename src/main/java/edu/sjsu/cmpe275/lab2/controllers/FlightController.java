@@ -48,7 +48,7 @@ public class FlightController {
     }
     //create flight
     @RequestMapping(value = "/flight/{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> createFlight(@PathVariable String id, @RequestParam String price, @RequestParam String from, @RequestParam String to, @RequestParam String departureTime,
+    public ResponseEntity<?> createFlight(@PathVariable String id, @RequestParam String price, @RequestParam String origin, @RequestParam String destination, @RequestParam String departureTime,
                                           @RequestParam String arrivalTime, @RequestParam String description, @RequestParam String capacity,
                                           @RequestParam String model, @RequestParam String manufacturer, @RequestParam String year) {
         System.out.println("hitting here in /flight");
@@ -62,7 +62,7 @@ public class FlightController {
             System.out.println("update");
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_XML);
-            Object flight = flightService.updateFlight(id, price, from, to, departureTime, arrivalTime, description, capacity, model, manufacturer, year);
+            Object flight = flightService.updateFlight(id, price, origin, destination, departureTime, arrivalTime, description, capacity, model, manufacturer, year);
             if (flight != null) {
                 return new ResponseEntity<>(flight, HttpStatus.OK);
             } else {
@@ -74,7 +74,7 @@ public class FlightController {
             System.out.println("create");
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_XML);
-            Object flight = flightService.createFlight(id, price, from, to, departureTime, arrivalTime, description, capacity, model, manufacturer, year);
+            Object flight = flightService.createFlight(id, price, origin, destination, departureTime, arrivalTime, description, capacity, model, manufacturer, year);
         /*if (object instanceof BadRequestDTO) {
             System.out.println("hitting here in bad request of /flight");
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
