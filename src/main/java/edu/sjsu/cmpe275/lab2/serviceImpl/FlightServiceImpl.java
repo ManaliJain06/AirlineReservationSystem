@@ -84,7 +84,7 @@ public class FlightServiceImpl implements FlightService{
                                String model, String manufacturer, String year) {
         String seatsLeft = capacity;
         PlaneDAO planeEntity = new PlaneDAO(Long.parseLong(capacity),model,manufacturer,year);
-            FlightDAO flightEntity = new FlightDAO(Long.valueOf(flightNumber),Double.parseDouble(price), origin, destination,
+            FlightDAO flightEntity = new FlightDAO(flightNumber,Double.parseDouble(price), origin, destination,
                     departureTime,arrivalTime, Long.valueOf(seatsLeft),
                     description, planeEntity);
             flightEntity = FlightRepository.save(flightEntity);
@@ -147,7 +147,7 @@ public class FlightServiceImpl implements FlightService{
                    seatsLeft = Long.valueOf(seatsLeft) + capacityDiff; //i update capacity to 10 from 5, seatsLeft is changed from 5 to 0
                }
 
-            FlightDAO flightDAO = new FlightDAO(Long.valueOf(flightNumber), Double.parseDouble(price), origin, destination,
+            FlightDAO flightDAO = new FlightDAO(flightNumber, Double.parseDouble(price), origin, destination,
                     departureTime, arrivalTime, seatsLeft,
                     description, planeEntity);
             // This save method used here as update. Internally, it merges if the id exists.

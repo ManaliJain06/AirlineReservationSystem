@@ -10,7 +10,7 @@ public class FlightDAO {
   //  @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name="flight_number")
-    private Long flightnumber;
+    private String flightnumber;
 
     private Double price;
     private String origin;
@@ -35,7 +35,7 @@ public class FlightDAO {
 
     public FlightDAO() {};
 
-    public Long getFlightnumber() {
+    public String getFlightnumber() {
         return flightnumber;
     }
 
@@ -47,7 +47,7 @@ public class FlightDAO {
         this.reservations = reservations;
     }
 
-    public FlightDAO(Long flightnumber, Double price, String origin, String destination, String departuretime,
+    public FlightDAO(String flightnumber, Double price, String origin, String destination, String departuretime,
                      String arrivaltime, Long seatsleft, String description, PlaneDAO planeDAO,
                      List<ReservationDAO> reservations) {
         this.flightnumber = flightnumber;
@@ -63,7 +63,7 @@ public class FlightDAO {
         this.reservations = reservations;
     }
 
-    public FlightDAO(Long flightnumber,Double price, String origin, String destination, String departuretime,
+    public FlightDAO(String flightnumber,Double price, String origin, String destination, String departuretime,
                      String arrivaltime, Long seatsleft, String description, PlaneDAO planeDAO) {
         this.flightnumber = flightnumber;
         this.price = price;
@@ -76,7 +76,7 @@ public class FlightDAO {
         this.planeDAO = planeDAO;
     }
 
-    public void setFlightnumber(Long flightnumber) {
+    public void setFlightnumber(String flightnumber) {
 
         this.flightnumber = flightnumber;
     }
