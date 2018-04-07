@@ -19,9 +19,7 @@ public class ReservationDAO {
     private PassengerDAO passenger;
 
     @ManyToMany
-    @JoinTable(
-            name="flight_reservations",
-            joinColumns = @JoinColumn(name = "reservation_number", referencedColumnName = "reservation_number"),
+    @JoinTable(name="flight_reservations", joinColumns = @JoinColumn(name = "reservation_number", referencedColumnName = "reservation_number"),
             inverseJoinColumns = @JoinColumn(name = "flight_number", referencedColumnName = "flight_number")
     )
     private List<FlightDAO> flights;

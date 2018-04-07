@@ -1,4 +1,5 @@
 package edu.sjsu.cmpe275.lab2.serviceImpl;
+import edu.sjsu.cmpe275.lab2.DAO.FlightDAO;
 import edu.sjsu.cmpe275.lab2.DAO.PassengerDAO;
 import edu.sjsu.cmpe275.lab2.DTO.ReservationDTO;
 import edu.sjsu.cmpe275.lab2.DTO.BadRequestDTO;
@@ -38,6 +39,10 @@ public class ReservationServiceImpl implements ReservationService {
         PassengerDAO passengerDAO = passengerRespository.getById(Integer.valueOf(passengerId));
         if(passengerDAO != null){
 
+            List<ReservationDAO> reservationsOfPassengers = passengerDAO.getReservationsOfPassengers();
+
+            FlightDAO flightDAO =
+            return null;
         } else{
             BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
                     "Passenger does not exist in the system");

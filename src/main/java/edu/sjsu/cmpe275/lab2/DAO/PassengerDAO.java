@@ -1,7 +1,7 @@
 package edu.sjsu.cmpe275.lab2.DAO;
 
 import javax.persistence.*;
-
+import java.util.List;
 @Entity(name = "passenger")
 public class PassengerDAO {
 
@@ -22,6 +22,9 @@ public class PassengerDAO {
 
     @Column(unique=true)
     private String phone;
+
+    @OneToMany(mappedBy = "passenger")
+    private List<ReservationDAO> reservationsOfPassengers;
 
     public PassengerDAO(){};
 
@@ -87,5 +90,13 @@ public class PassengerDAO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<ReservationDAO> getReservationsOfPassengers() {
+        return reservationsOfPassengers;
+    }
+
+    public void setReservationsOfPassengers(List<ReservationDAO> reservationsOfPassengers) {
+        this.reservationsOfPassengers = reservationsOfPassengers;
     }
 }
