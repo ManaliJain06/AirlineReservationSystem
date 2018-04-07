@@ -41,7 +41,7 @@ public class ReservationServiceImpl implements ReservationService {
 
             List<ReservationDAO> reservationsOfPassengers = passengerDAO.getReservationsOfPassengers();
 
-            FlightDAO flightDAO =
+//            FlightDAO flightDAO =
             return null;
         } else{
             BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
