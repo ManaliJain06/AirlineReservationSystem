@@ -11,21 +11,21 @@ import javax.xml.bind.annotation.XmlType;
 @JsonTypeName("reservation")
 @JsonTypeInfo(include= JsonTypeInfo.As.WRAPPER_OBJECT,use= JsonTypeInfo.Id.NAME)
 @XmlRootElement(name = "reservation") 
-@XmlType(propOrder = {"reservationNumber", "price", "passengerDTO", "flights"})
+@XmlType(propOrder = {"reservationNumber", "price", "passenger", "flights"})
 public class ReservationDTO {
 	
 	private String reservationNumber;
 	private String price;
-	private PassengerDTO passengerDTO;
+	private PassengerDTO passenger;
 	private Flights flights;
 	
 	public ReservationDTO() {};
 	
-	public ReservationDTO(String reservationNumber, String price, PassengerDTO passengerDTO, Flights flights) {
+	public ReservationDTO(String reservationNumber, String price, PassengerDTO passenger, Flights flights) {
 		super();
 		this.reservationNumber = reservationNumber;
 		this.price = price;
-		this.passengerDTO = passengerDTO;
+		this.passenger = passenger;
 		this.flights = flights;
 	}
 	
@@ -44,11 +44,11 @@ public class ReservationDTO {
 	}
 	
 	@JsonInclude(Include.NON_NULL)
-	public PassengerDTO getPassengerDTO() {
-		return passengerDTO;
+	public PassengerDTO getPassenger() {
+		return passenger;
 	}
-	public void setPassengerDTO(PassengerDTO passengerDTO) {
-		this.passengerDTO = passengerDTO;
+	public void setPassenger(PassengerDTO passenger) {
+		this.passenger = passenger;
 	}
 	
 	public Flights getFlights() {

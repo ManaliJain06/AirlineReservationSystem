@@ -6,15 +6,8 @@ import java.util.List;
 import edu.sjsu.cmpe275.lab2.DAO.*;
 
 public interface ReservationRepository extends JpaRepository<ReservationDAO, Long> {
-    ReservationDAO findByReservationnumber(Integer reservationnumber);
+    ReservationDAO getByReservationnumber(Integer reservationnumber);
 
-//    List<ReservationDAO> findByPassenger(Optional<PassengerDAO> passengerEntity);
-    List<ReservationDAO> findByFlights(List<FlightDAO> flights);
+    int deleteByReservationnumber(int number);
 
-    /*@Query("SELECT reservation FROM ReservationEntity reservation WHERE reservation.reservationnumber = :reservationnumber AND reservation.from = :from" +
-            "" +
-            "" +
-            ""
-            "")
-    ReservationEntity findReservation()*/
 }

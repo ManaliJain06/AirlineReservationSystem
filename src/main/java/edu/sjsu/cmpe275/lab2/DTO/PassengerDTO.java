@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.lab2.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -81,6 +82,7 @@ public class PassengerDTO {
 		this.phone = phone;
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public Reservations getReservations() {
 		return reservations;
 	}

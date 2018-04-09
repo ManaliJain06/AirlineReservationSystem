@@ -6,20 +6,19 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class Reservations {
 	
-	private List<ReservationDTO> reservationDTO;
-	
+	private List<ReservationDTO> reservation;
+
 	public Reservations() {};
-	
-	public Reservations(List<ReservationDTO> reservationDTO) {
+
+	public Reservations(List<ReservationDTO> reservation) {
 		super();
-		this.reservationDTO = reservationDTO;
+		this.reservation = reservation;
 	}
-	public List<ReservationDTO> getReservationDTO() {
-		return reservationDTO;
+	public List<ReservationDTO> getReservation() {
+		return reservation;
 	}
-	@XmlElement
-	public void setReservationDTO(List<ReservationDTO> reservationDTO) {
-		this.reservationDTO = reservationDTO;
+	public void setReservation(List<ReservationDTO> reservation) {
+		this.reservation = reservation;
 	}
 
 }

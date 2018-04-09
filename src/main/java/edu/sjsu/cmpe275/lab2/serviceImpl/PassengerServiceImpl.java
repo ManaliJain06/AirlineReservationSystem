@@ -17,8 +17,8 @@ import edu.sjsu.cmpe275.lab2.DTO.PassengerDTO;
 public class PassengerServiceImpl implements PassengerService {
 
 	private PassengerRepository passengerRepository;
-	@Autowired
 
+	@Autowired
 	PassengerServiceImpl(PassengerRepository passengerRepository){
 		this.passengerRepository = passengerRepository;
 	}

@@ -49,10 +49,9 @@ public class PassengerController {
 	        return new ResponseEntity<PassengerDTO>(passengerDTO, httpHeaders, HttpStatus.OK);
 	    }
 	    else{
-			BadRequestDTO badRequestDTO = new BadRequestDTO();
-			badRequestDTO.setCode("404");
-			badRequestDTO.setMsg("Sorry, the requested passenger with id "+ id + " does not exist");
-	        return new ResponseEntity<BadRequestDTO>(badRequestDTO, httpHeaders, HttpStatus.NOT_FOUND);
+			BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
+					"Sorry, the requested passenger with id "+ id + " does not exist");
+			return new ResponseEntity<>(badRequestDTO, HttpStatus.NOT_FOUND);
 	    }
 	}
 
@@ -69,11 +68,9 @@ public class PassengerController {
 			return new ResponseEntity<PassengerDTO>(passengerDTO, HttpStatus.OK);
 		}
 		else{
-			BadRequestDTO badRequestDTO = new BadRequestDTO();
-			badRequestDTO.setCode("404");
-			badRequestDTO.setMsg("another passenger with the same number already exists");
-
-			return new ResponseEntity<BadRequestDTO>(badRequestDTO, HttpStatus.NOT_FOUND);
+			BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
+					"Another passenger with the same number already exists");
+			return new ResponseEntity<>(badRequestDTO, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -93,16 +90,14 @@ public class PassengerController {
 			if(passengerDTO != null){
 				return new ResponseEntity<PassengerDTO>(passengerDTO, HttpStatus.OK);
 			} else{
-				BadRequestDTO badRequestDTO = new BadRequestDTO();
-				badRequestDTO.setCode("404");
-				badRequestDTO.setMsg("Passenger with phone \"+ phone +\" already exists");
-				return new ResponseEntity<BadRequestDTO>(badRequestDTO, HttpStatus.NOT_FOUND);
+				BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
+						"Passenger with phone "+ phone +" already exists");
+				return new ResponseEntity<>(badRequestDTO, HttpStatus.NOT_FOUND);
 			}
 		} else{
-			BadRequestDTO badRequestDTO = new BadRequestDTO();
-			badRequestDTO.setCode("404");
-			badRequestDTO.setMsg("No passenger with id \"+ id + \"exists");
-			return new ResponseEntity<BadRequestDTO>(badRequestDTO, HttpStatus.NOT_FOUND);
+			BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
+					"No passenger with id "+ id +" exists");
+			return new ResponseEntity<>(badRequestDTO, HttpStatus.NOT_FOUND);
 		}
 	}
 

@@ -12,30 +12,26 @@ public class ReservationDAO {
     @Column(name = "reservation_number")
     private Integer reservationnumber;
 
-    private Double price;
-
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "passenger_id")
     private PassengerDAO passenger;
 
     @ManyToMany
-    @JoinTable(name="flight_reservations", joinColumns = @JoinColumn(name = "reservation_number", referencedColumnName = "reservation_number"),
-            inverseJoinColumns = @JoinColumn(name = "flight_number", referencedColumnName = "flight_number")
+    @JoinTable
+            (
+            name="flight_reservations", joinColumns = {@JoinColumn(name = "reservation_number", referencedColumnName = "reservation_number")},
+            inverseJoinColumns = {@JoinColumn(name = "flight_number", referencedColumnName = "flight_number")}
     )
     private List<FlightDAO> flights;
+    private Double price;
 
-    public ReservationDAO(Double price, PassengerDAO passenger, List<FlightDAO> flights) {
-        this.price = price;
+    public ReservationDAO(PassengerDAO passenger,Double price, List<FlightDAO> flights) {
         this.passenger = passenger;
+        this.price = price;
         this.flights = flights;
     }
 
-    public void setPrice(Double price) {
-
-        this.price = price;
-    }
-
-    public List<FlightDAO> getFlights() {
+    public List<FlightDAO> getFights() {
         return flights;
     }
 

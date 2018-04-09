@@ -144,4 +144,6 @@ public class FlightDAO {
     public void setPlaneEntity(PlaneDAO planeEntity) {
         this.planeDAO = planeEntity;
     }
+
+
 }
