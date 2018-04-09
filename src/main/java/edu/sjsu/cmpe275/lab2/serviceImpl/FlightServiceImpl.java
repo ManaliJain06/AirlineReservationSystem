@@ -44,9 +44,11 @@ public class FlightServiceImpl implements FlightService{
                     calendar.setTime(max);
                     calendar.add(Calendar.HOUR, 1);
                     max = calendar.getTime();
-
+                    calendar.setTime(arrivalTime);
+                    calendar.add(Calendar.HOUR, 1);
+                    Date arrivalTimePlusOne = calendar.getTime();
                     if((departureTime.after(min) && departureTime.before(max)) ||
-                            (arrivalTime.after(min) && arrivalTime.before(max)))
+                            (arrivalTimePlusOne.after(min) && arrivalTime.before(max)))
                         return true;
                 }
             } catch (ParseException e){
@@ -163,17 +165,18 @@ public class FlightServiceImpl implements FlightService{
       //   long Capacity ;
         FlightDAO flightEntity = FlightRepository.findByFlightnumber(flightNumber);
         Set<FlightDAO> flightToBeUpdated = new HashSet<>();
-        flightToBeUpdated.add(flightEntity);
+        //flightToBeUpdated.add(flightEntity);
         List<ReservationDAO> reservationEntities = flightEntity.getReservations();
         // update the details.
        // long seatsLeft ;
         Set<FlightDAO> previouslyBookedFlights = new HashSet<>();
         for (ReservationDAO reservationEntity : reservationEntities) {
-            List<FlightDAO> currentReservedFlights=reservationEntity.getFlights();
-            for(FlightDAO flight: currentReservedFlights)
-                previouslyBookedFlights.add(flight);
+            PassengerDAO passengerEntity = reservationEntity.getPassenger();
+            List<ReservationDAO> reservationsOfPassengers = passengerEntity.getReservationsOfPassengers();
+           // List<FlightDAO> currentReservedFlights=reservationEntity.getFlights();
+            for(ReservationDAO reservationsOfPassengersEntitiy: reservationsOfPassengers) //changed yesterday
+                previouslyBookedFlights.addAll(reservationsOfPassengersEntitiy.getFlights());
         }
-
         int size=0; // to calculate the size of the list reservationEntities, to find the number of reservations for that flight.
         for (ReservationDAO reservationEntity : reservationEntities) {
            size++;
@@ -201,6 +204,14 @@ public class FlightServiceImpl implements FlightService{
                else{
                    seatsLeft = Long.valueOf(seatsLeft) + capacityDiff; //i update capacity to 10 from 5, seatsLeft is changed from 5 to 0
                }
+            /*
+            to compare the overlap times for previosly booked flights and the updated entity.
+            */
+               PlaneDAO newPlaneEntity 				= new PlaneDAO(Long.parseLong(capacity), model, manufacturer, year); //should calculate capapcity
+            FlightDAO newFlightEntity 		= new FlightDAO(flightNumber, Double.parseDouble(price), origin,
+                    destination, departureTime, arrivalTime, seatsLeft,
+                    description, newPlaneEntity);
+            flightToBeUpdated.add(newFlightEntity);
 
             if(timesOverlap(previouslyBookedFlights, flightToBeUpdated))
              //   return new BadRequestDTO("404","Reservation failed because the flights' times overlap with each other or any other previously booked flight");
