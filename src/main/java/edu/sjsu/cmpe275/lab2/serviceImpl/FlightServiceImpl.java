@@ -175,7 +175,7 @@ public class FlightServiceImpl implements FlightService{
             List<ReservationDAO> reservationsOfPassengers = passengerEntity.getReservationsOfPassengers();
            // List<FlightDAO> currentReservedFlights=reservationEntity.getFlights();
             for(ReservationDAO reservationsOfPassengersEntitiy: reservationsOfPassengers) //changed yesterday
-                previouslyBookedFlights.addAll(reservationsOfPassengersEntitiy.getFlights());
+                previouslyBookedFlights.addAll(reservationsOfPassengersEntitiy.getFights());
         }
         int size=0; // to calculate the size of the list reservationEntities, to find the number of reservations for that flight.
         for (ReservationDAO reservationEntity : reservationEntities) {
