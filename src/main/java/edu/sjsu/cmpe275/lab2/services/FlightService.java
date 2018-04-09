@@ -44,7 +44,7 @@ public interface FlightService {
      * @param id the Flight's Id
      * @return the Long value indicating if the Flight is deleted or not.
      */
-    //   public void deleteFlight(String id);
+       public Object deleteFlight(String id);
 
     /**
      * This method checks if the Flight exists or not.

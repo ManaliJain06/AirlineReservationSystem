@@ -6,7 +6,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ResponseDTO {
     private String code;
     private String msg;
-
+    public ResponseDTO() {}
+    public ResponseDTO(String code, String msg) {
+        super();
+        this.code = code;
+        this.msg = msg;
+    }
     public String getCode() {
         return code;
     }
