@@ -7,11 +7,13 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 public interface ReservationService {
 
-    public ReservationDTO getReservation(Integer reservationNumber);
+    ReservationDTO getReservation(Integer reservationNumber);
 
-    public ResponseEntity<?> makeReservation(String passengerId, List<String> flights);
+    ResponseEntity<?> makeReservation(String passengerId, List<String> flights);
 
-    public ResponseEntity<?> updateReservation(Integer reserVationNumber, List<String> flightAdded, List<String> flightRemoved);
+    ResponseEntity<?> updateReservation(Integer reservationNumber, List<String> flightAdded, List<String> flightRemoved);
 
-    public void cancelReservation(Integer reservationNumber, ReservationDAO reservationDAO);
+    void cancelReservation(Integer reservationNumber, ReservationDAO reservationDAO);
+
+    ResponseEntity<?> searchReservation(Integer passengerId, String origin, String to, Integer flightNumber);
 }

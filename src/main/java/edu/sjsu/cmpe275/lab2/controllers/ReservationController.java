@@ -98,4 +98,16 @@ public class ReservationController {
             return new ResponseEntity<>(badRequest, HttpStatus.NOT_FOUND);
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> searchReservation(@RequestParam(value="passengerId", required=false) String passengerId,
+                                               @RequestParam(value="origin", required=false) String origin,
+                                               @RequestParam(value="to", required=false) String to,
+                                               @RequestParam(value="flightNumber", required=false) String flightNumber) {
+
+        ResponseEntity<?> responseEntity = reservationService.searchReservation(Integer.valueOf(passengerId),
+                origin, to, Integer.valueOf(flightNumber));
+        return responseEntity;
+    }
+
 }

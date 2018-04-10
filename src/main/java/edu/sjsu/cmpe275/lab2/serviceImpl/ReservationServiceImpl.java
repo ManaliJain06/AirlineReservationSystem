@@ -333,7 +333,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void cancelReservation(Integer reservationNumber, ReservationDAO reservationDAO) {
+    public void cancelReservation(final Integer reservationNumber, final ReservationDAO reservationDAO) {
 
         int deleted = reservationRepository.deleteByReservationnumber(reservationNumber);
         if(deleted == 1){
@@ -344,5 +344,10 @@ public class ReservationServiceImpl implements ReservationService {
                 flightRespository.save(flightToUpdate);
            }
         }
+    }
+
+    @Override
+    public ResponseEntity searchReservation(Integer passengerId, String origin, String to, Integer flightNumber){
+        return null;
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BaseServiceImpl {
 
-    public static PassengerDTO mapPassengerDAOtoDTO(PassengerDAO passengerDao){
+    public static PassengerDTO mapPassengerDAOtoDTO(final PassengerDAO passengerDao){
         PassengerDTO passenger = new PassengerDTO();
         passenger.setId(Integer.toString(passengerDao.getId()));
         passenger.setFirstname(passengerDao.getFirstname());
@@ -36,7 +36,7 @@ public class BaseServiceImpl {
         return passenger;
     }
 
-    public static FlightDTO mapFlightDAOToDTO(FlightDAO flightdao)
+    public static FlightDTO mapFlightDAOToDTO(final FlightDAO flightdao)
     {
         PlaneDTO plane = new PlaneDTO(flightdao.getPlaneEntity().getCapacity().toString(),
                 flightdao.getPlaneEntity().getModel(),
@@ -74,7 +74,7 @@ public class BaseServiceImpl {
 //        return flight;
     }
 
-    public static ReservationDTO mapReservationDAOToDTO(ReservationDAO reservationDAO, Double totalPrice){
+    public static ReservationDTO mapReservationDAOToDTO(final ReservationDAO reservationDAO, final Double totalPrice){
 
         PassengerDAO passengerDao = reservationDAO.getPassenger();
         PassengerDTO passenger = new PassengerDTO();
@@ -102,7 +102,7 @@ public class BaseServiceImpl {
         return reservationDTO;
     }
 
-    public static ReservationDTO mapReservationDAOToDTOForPassenger(ReservationDAO reservationDAO){
+    public static ReservationDTO mapReservationDAOToDTOForPassenger(final ReservationDAO reservationDAO){
 
 
         List<FlightDTO> allFlights = new ArrayList<>();

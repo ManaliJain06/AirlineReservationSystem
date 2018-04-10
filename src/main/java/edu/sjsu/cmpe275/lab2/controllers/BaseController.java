@@ -5,14 +5,14 @@ import edu.sjsu.cmpe275.lab2.DTO.ResponseDTO;
 
 public class BaseController {
 
-    public static BadRequestDTO formBadRequest(String code, String msg){
+    public static BadRequestDTO formBadRequest(final String code, final String msg){
         BadRequestDTO badRequestDTO = new BadRequestDTO();
         badRequestDTO.setCode(code);
         badRequestDTO.setMsg(msg);
         return badRequestDTO;
     }
 
-    public static ResponseDTO formSuccessResponse(String code, String msg){
+    public static ResponseDTO formSuccessResponse(final String code, final String msg){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setCode(code);
         responseDTO.setMsg(msg);

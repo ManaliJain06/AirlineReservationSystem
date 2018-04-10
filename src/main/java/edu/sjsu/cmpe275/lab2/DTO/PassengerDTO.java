@@ -90,6 +90,5 @@ public class PassengerDTO {
 	public void setReservations(Reservations reservations) {
 		this.reservations = reservations;
 	};
-	
-	
+
 }
