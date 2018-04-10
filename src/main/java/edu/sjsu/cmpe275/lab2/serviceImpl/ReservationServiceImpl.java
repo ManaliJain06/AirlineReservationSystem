@@ -348,6 +348,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ResponseEntity searchReservation(Integer passengerId, String origin, String to, Integer flightNumber){
+        // check if only passengerId is provided then search for all the reservation of that passenger and
+        // return data
+        if(passengerId != null && origin == null && to == null && flightNumber == null){
+            PassengerDAO passenger  = passengerRespository.getById(passengerId);
+
+//            ReservationDAO reservationDAO = reservationRepository.getByReservationnumber(reservationNumber);
+        }
         return null;
     }
 }

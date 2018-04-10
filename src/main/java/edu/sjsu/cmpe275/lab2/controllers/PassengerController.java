@@ -55,7 +55,7 @@ public class PassengerController {
 	    }
 	}
 
-	@RequestMapping(value="", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> createPassenger(@RequestParam(value="firstname") String firstname,
 											 @RequestParam(value="lastname") String lastname,
 											 @RequestParam(value="age") String age,
