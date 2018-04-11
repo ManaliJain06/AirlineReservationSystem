@@ -25,21 +25,13 @@ public class ReservationDAO {
     private List<FlightDAO> flights;
     private Double price;
 
+    public ReservationDAO(){}
+
     public ReservationDAO(PassengerDAO passenger,Double price, List<FlightDAO> flights) {
         this.passenger = passenger;
         this.price = price;
         this.flights = flights;
     }
-
-    public List<FlightDAO> getFights() {
-        return flights;
-    }
-
-    public void setFlights(List<FlightDAO> flights) {
-        this.flights = flights;
-    }
-
-    public ReservationDAO(){}
 
     public PassengerDAO getPassenger() {
         return passenger;
@@ -69,5 +61,12 @@ public class ReservationDAO {
         return price;
     }
 
+    public List<FlightDAO> getFights() {
+        return flights;
+    }
+
+    public void setFlights(List<FlightDAO> flights) {
+        this.flights = flights;
+    }
 }
 

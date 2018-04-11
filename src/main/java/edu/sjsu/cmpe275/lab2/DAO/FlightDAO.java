@@ -7,7 +7,6 @@ import java.util.List;
 public class FlightDAO {
 
     @Id
-  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name="flight_number")
     private String flightnumber;
@@ -144,6 +143,4 @@ public class FlightDAO {
     public void setPlaneDAO(PlaneDAO planeDAO) {
         this.planeDAO = planeDAO;
     }
-
-
 }

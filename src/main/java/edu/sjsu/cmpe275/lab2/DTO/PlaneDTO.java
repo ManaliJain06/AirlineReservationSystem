@@ -11,8 +11,6 @@ public class PlaneDTO {
 	private String model;
 	private String manufacturer;
 	private String year;
-	
-	public PlaneDTO() {}
 
 	public PlaneDTO(String capacity, String model, String manufacturer, String year) {
 		super();
@@ -21,6 +19,7 @@ public class PlaneDTO {
 		this.manufacturer = manufacturer;
 		this.year = year;
 	}
+	public PlaneDTO() {}
 
 	public String getCapacity() {
 		return capacity;

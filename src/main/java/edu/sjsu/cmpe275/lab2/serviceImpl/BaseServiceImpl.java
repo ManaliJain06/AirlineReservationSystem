@@ -13,8 +13,16 @@ import edu.sjsu.cmpe275.lab2.DTO.Reservations;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base Util class to write mapper codes for connecting DAO to DTO
+ */
 public class BaseServiceImpl {
 
+    /**
+     * Mapper for mapping Passenger DAO to DTO
+     * @param passengerDao
+     * @return PassengerDTO
+     */
     public static PassengerDTO mapPassengerDAOtoDTO(final PassengerDAO passengerDao){
         PassengerDTO passenger = new PassengerDTO();
         passenger.setId(Integer.toString(passengerDao.getId()));
@@ -36,6 +44,11 @@ public class BaseServiceImpl {
         return passenger;
     }
 
+    /**
+     * Mapper for mapping Flight DAO to DTO
+     * @param flightdao
+     * @return FlightDTO
+     */
     public static FlightDTO mapFlightDAOToDTO(final FlightDAO flightdao)
     {
         PlaneDTO plane = new PlaneDTO(flightdao.getPlaneDAO().getCapacity().toString(),
@@ -53,27 +66,14 @@ public class BaseServiceImpl {
                 plane);
 
         return flight;
-
-
-//        Plane plane = new Plane(flightEntity.getPlaneEntity().getCapacity().toString(),
-//                flightEntity.getPlaneEntity().getModel(),
-//                flightEntity.getPlaneEntity().getManufacturer(),
-//                flightEntity.getPlaneEntity().getYear().toString());
-//
-//        Flight flight = new Flight(flightEntity.getFlightnumber().toString(),
-//                flightEntity.getPrice().toString(),
-//                flightEntity.getOrigin(),
-//                flightEntity.getDestination(),
-//                flightEntity.getDeparturetime(),
-//                flightEntity.getArrivaltime(),
-//                flightEntity.getSeatsleft().toString(),
-//                flightEntity.getDescription(),
-//                plane,
-//                passengers);
-
-//        return flight;
     }
 
+    /**
+     * Mapper for mapping Reservation DAO to DTO
+     * @param reservationDAO
+     * @param totalPrice
+     * @return ReservationDTO
+     */
     public static ReservationDTO mapReservationDAOToDTO(final ReservationDAO reservationDAO, final Double totalPrice){
 
         PassengerDAO passengerDao = reservationDAO.getPassenger();
@@ -102,6 +102,11 @@ public class BaseServiceImpl {
         return reservationDTO;
     }
 
+    /**
+     * Mapper for mapping Reservation DAO to DTO for passenger
+     * @param reservationDAO
+     * @return
+     */
     public static ReservationDTO mapReservationDAOToDTOForPassenger(final ReservationDAO reservationDAO){
 
 

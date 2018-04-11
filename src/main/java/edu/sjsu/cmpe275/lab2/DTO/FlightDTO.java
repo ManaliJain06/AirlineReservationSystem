@@ -55,20 +55,6 @@ public class FlightDTO {
 		this.plane = plane;
 	}
 
-//	public FlightDTO(String flightNumber, String price, String from, String to, String departureTime, String arrivalTime,
-//				  String description, PlaneDTO plane) {
-//		super();
-//		this.flightNumber = flightNumber;
-//		this.price = price;
-//		this.from = from;
-//		this.to = to;
-//		this.departureTime = departureTime;
-//		this.arrivalTime = arrivalTime;
-//		this.description = description;
-//		this.plane = plane;
-//	}
-
-
 	public String getFlightNumber() {
 		return flightNumber;
 	}
@@ -130,7 +116,7 @@ public class FlightDTO {
 	public List<PassengerDTO> getPassengers() {
 		return passengers;
 	}
-	@XmlElement
+
 	public void setPassengers(List<PassengerDTO> passengers) {
 		this.passengers = passengers;
 	};

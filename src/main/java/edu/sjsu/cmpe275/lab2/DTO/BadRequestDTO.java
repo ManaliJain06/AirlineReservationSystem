@@ -16,7 +16,7 @@ public class BadRequestDTO {
 	private String msg;
 	
 	public BadRequestDTO() {}
-
+	public void setMsg(String msg) {this.msg = msg; }
 	public String getCode() {
 		return code;
 	}
@@ -26,8 +26,5 @@ public class BadRequestDTO {
 	public String getMsg() {
 		return msg;
 	}
-	public void setMsg(String msg) {
 
-		this.msg = msg;
-	}
 }

@@ -12,6 +12,12 @@ public class PlaneDAO {
 
     public PlaneDAO(){}
 
+    public PlaneDAO(Long capacity, String model, String manufacturer, String year) {
+        this.capacity = capacity;
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.year = year;
+    }
     public Long getCapacity() {
         return capacity;
     }
@@ -43,12 +49,4 @@ public class PlaneDAO {
     public void setYear(String year) {
         this.year = year;
     }
-
-    public PlaneDAO(Long capacity, String model, String manufacturer, String year) {
-        this.capacity = capacity;
-        this.model = model;
-        this.manufacturer = manufacturer;
-        this.year = year;
-    }
-
 }

@@ -16,6 +16,10 @@ import org.springframework.http.HttpHeaders;
 import java.util.List;
 import javax.transaction.Transactional;
 
+/**
+ * Controller for reservation REST API
+ * Author: Manali Jain
+ */
 @Transactional
 @RestController
 @RequestMapping("/reservation")
@@ -30,6 +34,12 @@ public class ReservationController {
         this.reservationRepository = reservationRepository;
     }
 
+    /**
+     * Rest API make a reservation
+     * @param passengerId
+     * @param flightLists
+     * @return ResponseEntity
+     */
     @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> makeReservation(@RequestParam(value="passengerId") String passengerId,
                                              @RequestParam(value="flightLists") List<String> flightLists) {
@@ -37,7 +47,11 @@ public class ReservationController {
         return responseEntity;
     }
 
-
+    /**
+     * Rest API get a reservation
+     * @param number
+     * @return ResponseEntity
+     */
     @RequestMapping(value= "/{number}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getReservation(@PathVariable String number) {
         ReservationDTO reservationDTO = reservationService.getReservation(Integer.parseInt(number));
@@ -50,6 +64,13 @@ public class ReservationController {
         }
     }
 
+    /**
+     * Rest API update a reservation
+     * @param number
+     * @param flightsAdded
+     * @param flightsRemoved
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/{number}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> updateReservation(@PathVariable String number,
                                                @RequestParam(value="flightsAdded", required=false) List<String> flightsAdded,
@@ -80,6 +101,11 @@ public class ReservationController {
         return response;
     }
 
+    /**
+     * Rest API to cancel a reservation
+     * @param number
+     * @return ResponseEntity
+     */
     @RequestMapping(value="/{number}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> cancelReservation(@PathVariable String number) {
 
@@ -99,6 +125,14 @@ public class ReservationController {
         }
     }
 
+    /**
+     * Rest API to search a reservation
+     * @param passengerId
+     * @param origin
+     * @param to
+     * @param flightNumber
+     * @return ResponseEntity
+     */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> searchReservation(@RequestParam(value="passengerId", required=false) String passengerId,
                                                @RequestParam(value="origin", required=false) String origin,

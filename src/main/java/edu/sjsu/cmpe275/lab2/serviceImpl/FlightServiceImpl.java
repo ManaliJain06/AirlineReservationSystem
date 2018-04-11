@@ -69,7 +69,7 @@ public class FlightServiceImpl implements FlightService {
      * reservation details.
      *
      * @param id
-     * @return the Flight dto
+     * @return Flight DTO
      */
 
     @Override

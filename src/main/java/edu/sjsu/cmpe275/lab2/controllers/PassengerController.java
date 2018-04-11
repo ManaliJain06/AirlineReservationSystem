@@ -72,7 +72,7 @@ public class PassengerController {
 	 * @param age
 	 * @param gender
 	 * @param phone
-	 * @return
+	 * @return ResponseEntity
 	 */
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> createPassenger(@RequestParam(value="firstname") String firstname,
@@ -101,7 +101,7 @@ public class PassengerController {
 	 * @param age
 	 * @param gender
 	 * @param phone
-	 * @return
+	 * @return ResponseEntity
 	 */
 	@RequestMapping(value="{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> updatePassenger(@PathVariable String id,
@@ -133,7 +133,7 @@ public class PassengerController {
 	/**
 	 * REST API for deleting passenger
 	 * @param id
-	 * @return
+	 * @return ResponseEntity
 	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> deletePassenger(@PathVariable String id) {

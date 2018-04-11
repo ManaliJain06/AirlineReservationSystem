@@ -5,6 +5,7 @@
 	<artifactId>AirlineReservationSystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CMPE 275 - Lab 2</name>
+	<packaging>jar</packaging>
 
 	<!-- Declares that our project is child of this parent project -->
 	<!-- Maven Concept: Define configuration in parent project and let child 
@@ -49,8 +50,19 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
-
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<finalName>AirlineReservationSystem275</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

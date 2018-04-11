@@ -1,7 +1,5 @@
 package edu.sjsu.cmpe275.lab2.serviceImpl;
-import ch.qos.logback.core.CoreConstants;
-import com.sun.deploy.net.HttpResponse;
-import com.sun.deploy.net.MessageHeader;
+
 import edu.sjsu.cmpe275.lab2.DAO.FlightDAO;
 import edu.sjsu.cmpe275.lab2.DAO.PassengerDAO;
 import edu.sjsu.cmpe275.lab2.DTO.ReservationDTO;
@@ -20,20 +18,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedInputStream;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.HashSet;
 import java.util.logging.Logger;
 
+/**
+ * This class implements all the operations of the Reservation
+ * Author: Manali Jain
+ */
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
@@ -52,6 +49,11 @@ public class ReservationServiceImpl implements ReservationService {
         this.flightRespository = flightRespository;
     }
 
+    /**
+     * Method to get the reservation of teh passenger
+     * @param reservationNumber
+     * @return
+     */
     @Override
     public ReservationDTO getReservation(Integer reservationNumber) {
         ReservationDAO reservationDAO = reservationRepository.getByReservationnumber(reservationNumber);
@@ -64,6 +66,12 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
+    /**
+     * Method to make a reservation
+     * @param passengerId
+     * @param flights
+     * @return
+     */
     @Override
     public ResponseEntity<?> makeReservation(String passengerId, List<String> flights){
         PassengerDAO passengerDAO = passengerRespository.getById(Integer.valueOf(passengerId));
@@ -179,6 +187,13 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
+    /**
+     * Method to update a reservation
+     * @param reservationNumber
+     * @param flightAdded
+     * @param flightRemoved
+     * @return
+     */
     @Override
     public ResponseEntity<?> updateReservation(Integer reservationNumber, List<String> flightAdded, List<String> flightRemoved){
         ReservationDAO reservationDAO = reservationRepository.getByReservationnumber(reservationNumber);
@@ -333,6 +348,11 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
+    /**
+     * Method to cancel a reservation
+     * @param reservationNumber
+     * @param reservationDAO
+     */
     @Override
     public void cancelReservation(final Integer reservationNumber, final ReservationDAO reservationDAO) {
 
@@ -347,6 +367,14 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 
+    /**
+     * Method for searching a reservation
+     * @param passengerId
+     * @param origin
+     * @param to
+     * @param flightNumber
+     * @return
+     */
     @Override
     public ResponseEntity<?> searchReservation(Integer passengerId, String origin, String to, String flightNumber){
         // check if only passengerId is provided then search for all the reservation of that passenger and

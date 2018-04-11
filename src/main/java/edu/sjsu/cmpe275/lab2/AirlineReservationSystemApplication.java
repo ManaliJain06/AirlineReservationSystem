@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
-* Starting point of the application. Run as the Java Application. 
-*
-*/
+ * Start point of application
+ * The spring boot server will start from here.
+ */
 @SpringBootApplication
 public class AirlineReservationSystemApplication {
 
