@@ -6,6 +6,7 @@ import edu.sjsu.cmpe275.lab2.DAO.FlightDAO;
 import edu.sjsu.cmpe275.lab2.DAO.PassengerDAO;
 import edu.sjsu.cmpe275.lab2.DTO.ReservationDTO;
 import edu.sjsu.cmpe275.lab2.DTO.BadRequestDTO;
+import edu.sjsu.cmpe275.lab2.DTO.Reservations;
 import edu.sjsu.cmpe275.lab2.DAO.ReservationDAO;
 import edu.sjsu.cmpe275.lab2.controllers.BaseController;
 import edu.sjsu.cmpe275.lab2.repository.PassengerRepository;
@@ -347,14 +348,67 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ResponseEntity searchReservation(Integer passengerId, String origin, String to, Integer flightNumber){
+    public ResponseEntity<?> searchReservation(Integer passengerId, String origin, String to, String flightNumber){
         // check if only passengerId is provided then search for all the reservation of that passenger and
         // return data
-        if(passengerId != null && origin == null && to == null && flightNumber == null){
-            PassengerDAO passenger  = passengerRespository.getById(passengerId);
+        List<ReservationDAO> reservationsOfPassenger = new ArrayList<>();
 
-//            ReservationDAO reservationDAO = reservationRepository.getByReservationnumber(reservationNumber);
+        if(passengerId != null){
+            PassengerDAO passenger  = passengerRespository.getById(passengerId);
+            List<ReservationDAO> reservations = passenger.getReservationsOfPassengers();
+            reservationsOfPassenger.addAll(reservations);
         }
-        return null;
+
+        if(origin != null || to != null){
+            HashSet<ReservationDAO> reservationsOfPlaces = new HashSet<>();
+            List<ReservationDAO> reservationsOfOrigin = new ArrayList<>();
+            List<ReservationDAO> reservationsOfDestination = new ArrayList<>();
+            List<FlightDAO> flightFromOrigin = new ArrayList<>();
+            List<FlightDAO> flightToDestination = new ArrayList<>();
+            if(origin != null){
+                flightFromOrigin =flightRespository.findByOrigin(origin);
+            }
+            if(to != null){
+                flightToDestination =flightRespository.findByDestination(to);
+            }
+
+            if(flightFromOrigin.size()>0){
+                for(FlightDAO flight: flightFromOrigin){
+                    reservationsOfOrigin.addAll(flight.getReservations());
+                }
+                reservationsOfPlaces.addAll(reservationsOfOrigin);
+            }
+            if(flightToDestination.size()>0){
+                for(FlightDAO flight: flightToDestination){
+                    reservationsOfDestination.addAll(flight.getReservations());
+                }
+                reservationsOfPlaces.addAll(reservationsOfDestination);
+            }
+            reservationsOfPassenger.addAll(reservationsOfPlaces);
+        }
+
+        if(flightNumber != null){
+            FlightDAO flights = flightRespository.findByFlightnumber(flightNumber);
+            List<ReservationDAO> reservations = flights.getReservations();
+            reservationsOfPassenger.addAll(reservations);
+        }
+
+
+        List<ReservationDTO> reservationList = new ArrayList();
+        for(ReservationDAO res : reservationsOfPassenger){
+            ReservationDTO reservationDTO = BaseServiceImpl.mapReservationDAOToDTO(res, res.getPrice());
+            reservationList.add(reservationDTO);
+        }
+
+        Reservations allSearchedReservations = new Reservations(reservationList);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_XML);
+        if(reservationList.size()>0){
+            return new ResponseEntity<>(allSearchedReservations,httpHeaders, HttpStatus.OK );
+        } else{
+            BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
+                    "No reservation present");
+            return new ResponseEntity<>(badRequestDTO, HttpStatus.NOT_FOUND);
+        }
     }
 }

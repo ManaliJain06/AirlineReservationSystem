@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.sjsu.cmpe275.lab2.services.PassengerService;
 
+/**
+ * Controller for passenger REST API
+ * Author: Manali Jain
+ */
 import javax.transaction.Transactional;
 
 @Transactional
@@ -30,7 +34,13 @@ public class PassengerController {
 		this.passengerService = passengerService;
 	}
 
-	
+
+	/**
+	 * REST API for getting details of passenger
+	 * @param id
+	 * @param isXML
+	 * @return ResponseEntity
+	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getPassenger(@PathVariable String id,
 										  @RequestParam(value="xml", required=false) String isXML ) {
@@ -55,6 +65,15 @@ public class PassengerController {
 	    }
 	}
 
+	/**
+	 * REST API for creating passenger
+	 * @param firstname
+	 * @param lastname
+	 * @param age
+	 * @param gender
+	 * @param phone
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> createPassenger(@RequestParam(value="firstname") String firstname,
 											 @RequestParam(value="lastname") String lastname,
@@ -74,6 +93,16 @@ public class PassengerController {
 		}
 	}
 
+	/**
+	 * REST API for updating details of passenger
+	 * @param id
+	 * @param firstname
+	 * @param lastname
+	 * @param age
+	 * @param gender
+	 * @param phone
+	 * @return
+	 */
 	@RequestMapping(value="{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> updatePassenger(@PathVariable String id,
 											 @RequestParam(value="firstname") String firstname,
@@ -101,6 +130,11 @@ public class PassengerController {
 		}
 	}
 
+	/**
+	 * REST API for deleting passenger
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value="/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> deletePassenger(@PathVariable String id) {
 

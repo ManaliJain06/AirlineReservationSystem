@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
 
+/**
+ * Controller for Flight APIS
+ * Author: Hanisha Thirtham
+ */
 @Transactional
 @RestController
 public class FlightController {
@@ -23,43 +27,62 @@ public class FlightController {
     @Autowired
     private FlightService flightService;
 
+    /**
+     * Rest API for getting flight
+     * @param isXML
+     * @param id
+     * @return ResponseEntity object
+     */
     @RequestMapping(value = "/flight/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getFlight(@RequestParam(value = "xml", required = false) String isXml,
+    public ResponseEntity<?> getFlight(@RequestParam(value = "xml", required = false) String isXML,
                                        @PathVariable String id) {
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        if (isXml != null && isXml.equals("true")) {
-            responseHeaders.setContentType(MediaType.APPLICATION_XML);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if(isXML == null) {
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        } else if(isXML.equals("true")){
+            httpHeaders.setContentType(MediaType.APPLICATION_XML);
         } else {
-            responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
         }
 
-       // System.out.println("test");
         if (flightService.findFlightById(id) != null) {
-            System.out.println("get flight inside not null");
             Object flight = flightService.getFlight(id);
-            return new ResponseEntity<>(flight, responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(flight, httpHeaders, HttpStatus.OK);
         } else {
-            responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
             BadRequestDTO badRequest = BaseController.formBadRequest("404",
                     "Sorry, the requested flight with id " + id + " does not exist.");
-            return new ResponseEntity<>(badRequest, responseHeaders, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(badRequest, httpHeaders, HttpStatus.NOT_FOUND);
         }
     }
+
+    /**
+     * Rest API for creating flight
+     * @param id
+     * @param price
+     * @param origin
+     * @param destination
+     * @param departureTime
+     * @param arrivalTime
+     * @param description
+     * @param capacity
+     * @param model
+     * @param manufacturer
+     * @param year
+     * @return ResponseEntity object
+     */
     //create flight
     @RequestMapping(value = "/flight/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> createFlight(@PathVariable String id, @RequestParam String price, @RequestParam String origin, @RequestParam String destination, @RequestParam String departureTime,
                                           @RequestParam String arrivalTime, @RequestParam String description, @RequestParam String capacity,
                                           @RequestParam String model, @RequestParam String manufacturer, @RequestParam String year) {
-        System.out.println("hitting here in /flight");
-        System.out.println(id);
         // if(flightNumber.equalsIgnoreCase("flightNumber")){
         //create
         if (flightService.findFlightById(id) != null) {
             /*BadRequestDTO badRequest = BaseController.formBadRequest("400",
                     "Sorry, the flight with the same flight number already exists.");
             return new ResponseEntity<>(badRequest, HttpStatus.BAD_REQUEST);*/
-            System.out.println("update flight");
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_XML);
             Object flight = flightService.updateFlight(id, price, origin, destination, departureTime, arrivalTime, description, capacity, model, manufacturer, year);
@@ -71,31 +94,23 @@ public class FlightController {
                 return new ResponseEntity<>(badRequest, HttpStatus.BAD_REQUEST);
             }*/
             if (flight instanceof FlightDTO) {
-                System.out.println("hitting here in ok status update of /flight");
                 httpHeaders.setContentType(MediaType.APPLICATION_XML);
                 return new ResponseEntity<>(flight, HttpStatus.OK);
             }
             else{
-
-                System.out.println("hitting here in bad request of update /flight");
                 httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                 return new ResponseEntity<>(flight, httpHeaders, HttpStatus.NOT_FOUND);
             }
                 //(flight != null) {
-
             }
         else {
-            System.out.println("create");
             HttpHeaders httpHeaders = new HttpHeaders();
             Object flight = flightService.createFlight(id, price, origin, destination, departureTime, arrivalTime, description, capacity, model, manufacturer, year);
-        if (flight instanceof BadRequestDTO) {
-            System.out.println("hitting here in bad request of /flight");
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            return new ResponseEntity<>(flight, httpHeaders, HttpStatus.NOT_FOUND);
-        }
-            else{
+            if (flight instanceof BadRequestDTO) {
+                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                return new ResponseEntity<>(flight, httpHeaders, HttpStatus.NOT_FOUND);
+            } else{
             //(flight != null) {
-            System.out.println("hitting here in ok status create of /flight");
             httpHeaders.setContentType(MediaType.APPLICATION_XML);
             return new ResponseEntity<>(flight, HttpStatus.OK);
             }/* else {
@@ -105,23 +120,24 @@ public class FlightController {
         }
         /*} else {
             // anything else means id inside db. hence, update
-            System.out.println("update");
         }*/
     }
 
+    /**
+     * Rest API for deleting flight
+     * @param id
+     * @return ResponseEntity object
+     */
     @RequestMapping(value = "/airline/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteReservation(@PathVariable String id)
+    public ResponseEntity<?> deleteFLight(@PathVariable String id)
     {
-        System.out.println("hitting here in delete of /flight");
         HttpHeaders httpHeaders = new HttpHeaders();
         Object object = flightService.deleteFlight(id);
         if(object instanceof BadRequestDTO)
         {
-            System.out.println("hitting here in bad request delete of /flight");
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
             return new ResponseEntity<>(object, httpHeaders, HttpStatus.NOT_FOUND);
         }
-        System.out.println("hitting here in ok status delete of /flight");
         httpHeaders.setContentType(MediaType.APPLICATION_XML);
         return new ResponseEntity<>(object, httpHeaders, HttpStatus.OK);
     }

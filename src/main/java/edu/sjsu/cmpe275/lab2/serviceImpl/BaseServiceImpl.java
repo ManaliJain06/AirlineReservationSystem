@@ -38,11 +38,11 @@ public class BaseServiceImpl {
 
     public static FlightDTO mapFlightDAOToDTO(final FlightDAO flightdao)
     {
-        PlaneDTO plane = new PlaneDTO(flightdao.getPlaneEntity().getCapacity().toString(),
-                flightdao.getPlaneEntity().getModel(),
-                flightdao.getPlaneEntity().getManufacturer(),
-                flightdao.getPlaneEntity().getYear().toString());
-        FlightDTO flight = new FlightDTO(flightdao.getFlightnumber().toString(),
+        PlaneDTO plane = new PlaneDTO(flightdao.getPlaneDAO().getCapacity().toString(),
+                flightdao.getPlaneDAO().getModel(),
+                flightdao.getPlaneDAO().getManufacturer(),
+                flightdao.getPlaneDAO().getYear());
+        FlightDTO flight = new FlightDTO(flightdao.getFlightnumber(),
                 flightdao.getPrice().toString(),
                 flightdao.getOrigin(),
                 flightdao.getDestination(),

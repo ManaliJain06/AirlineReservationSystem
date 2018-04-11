@@ -105,9 +105,9 @@ public class ReservationController {
                                                @RequestParam(value="to", required=false) String to,
                                                @RequestParam(value="flightNumber", required=false) String flightNumber) {
 
-        ResponseEntity<?> responseEntity = reservationService.searchReservation(Integer.valueOf(passengerId),
-                origin, to, Integer.valueOf(flightNumber));
-        return responseEntity;
+        ResponseEntity<?> reservations = reservationService.searchReservation(Integer.valueOf(passengerId),
+                origin, to, flightNumber);
+        return reservations;
     }
 
 }

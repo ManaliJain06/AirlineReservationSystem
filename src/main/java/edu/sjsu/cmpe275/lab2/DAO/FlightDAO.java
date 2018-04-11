@@ -137,12 +137,12 @@ public class FlightDAO {
         this.description = description;
     }
 
-    public PlaneDAO getPlaneEntity() {
+    public PlaneDAO getPlaneDAO() {
         return planeDAO;
     }
 
-    public void setPlaneEntity(PlaneDAO planeEntity) {
-        this.planeDAO = planeEntity;
+    public void setPlaneDAO(PlaneDAO planeDAO) {
+        this.planeDAO = planeDAO;
     }
 
 
