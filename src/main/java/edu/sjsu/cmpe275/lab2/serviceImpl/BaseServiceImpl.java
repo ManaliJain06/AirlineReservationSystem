@@ -51,19 +51,11 @@ public class BaseServiceImpl {
      */
     public static FlightDTO mapFlightDAOToDTO(final FlightDAO flightdao)
     {
-        PlaneDTO plane = new PlaneDTO(flightdao.getPlaneDAO().getCapacity().toString(),
-                flightdao.getPlaneDAO().getModel(),
-                flightdao.getPlaneDAO().getManufacturer(),
-                flightdao.getPlaneDAO().getYear());
-        FlightDTO flight = new FlightDTO(flightdao.getFlightnumber(),
-                flightdao.getPrice().toString(),
-                flightdao.getOrigin(),
-                flightdao.getDestination(),
-                flightdao.getDeparturetime(),
-                flightdao.getArrivaltime(),
-                flightdao.getSeatsleft().toString(),
-                flightdao.getDescription(),
-                plane);
+        PlaneDTO plane = new PlaneDTO(flightdao.getPlaneDAO().getCapacity().toString(), flightdao.getPlaneDAO().getModel(),
+                flightdao.getPlaneDAO().getManufacturer(), flightdao.getPlaneDAO().getYear());
+        FlightDTO flight = new FlightDTO(flightdao.getFlightnumber(), flightdao.getPrice().toString(),
+                flightdao.getOrigin(), flightdao.getDestination(), flightdao.getDeparturetime(), flightdao.getArrivaltime(),
+                flightdao.getSeatsleft().toString(), flightdao.getDescription(), plane);
 
         return flight;
     }

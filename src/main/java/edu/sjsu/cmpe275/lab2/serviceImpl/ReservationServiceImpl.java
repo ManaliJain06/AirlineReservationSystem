@@ -242,14 +242,15 @@ public class ReservationServiceImpl implements ReservationService {
             if(flightRemoved != null){
                 for(String flightNumber: flightRemoved){
                     FlightDAO flight = flightRespository.findByFlightnumber(flightNumber);
-                    if(flight!= null)
+                    if(flight!= null) {
                         if(flightAgainstReservation.contains(flight)) {
                             flightsToBeRemoveList.add(flight);
                         } else{
                             BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
                                     "Flight "+ flightNumber +" was not in the reservation list of flights so cannot remove ");
                             return new ResponseEntity<>(badRequestDTO, HttpStatus.NOT_FOUND);
-                    } else{
+                        }
+                    }else{
                         BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
                                 "Flight to remove "+ flightNumber +"does not exists in the system");
                         return new ResponseEntity<>(badRequestDTO, HttpStatus.NOT_FOUND);
@@ -435,7 +436,7 @@ public class ReservationServiceImpl implements ReservationService {
             return new ResponseEntity<>(allSearchedReservations,httpHeaders, HttpStatus.OK );
         } else{
             BadRequestDTO badRequestDTO = BaseController.formBadRequest("404",
-                    "No reservation present");
+                    "No reservation present for the selected search");
             return new ResponseEntity<>(badRequestDTO, HttpStatus.NOT_FOUND);
         }
     }

@@ -59,7 +59,7 @@ public class ReservationController {
             return new ResponseEntity<>(reservationDTO, HttpStatus.OK);
         } else{
             BadRequestDTO badRequest = BaseController.formBadRequest("404",
-                    "Reserveration with number "+ number+" does not exist");
+                    "Reservation with number "+ number+" does not exist");
             return new ResponseEntity<>(badRequest, HttpStatus.NOT_FOUND);
         }
     }
@@ -120,7 +120,7 @@ public class ReservationController {
                     , HttpStatus.OK);
         } else{
             BadRequestDTO badRequest = BaseController.formBadRequest("404",
-                    "No reservation record found");
+                    "Reservation with number "+ number +"  does not exist");
             return new ResponseEntity<>(badRequest, HttpStatus.NOT_FOUND);
         }
     }

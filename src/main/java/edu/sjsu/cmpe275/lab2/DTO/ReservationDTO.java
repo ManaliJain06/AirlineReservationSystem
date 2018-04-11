@@ -19,15 +19,7 @@ public class ReservationDTO {
 	private PassengerDTO passenger;
 	private Flights flights;
 	
-	public ReservationDTO() {};
-	
-	public ReservationDTO(String reservationNumber, String price, PassengerDTO passenger, Flights flights) {
-		super();
-		this.reservationNumber = reservationNumber;
-		this.price = price;
-		this.passenger = passenger;
-		this.flights = flights;
-	}
+	public ReservationDTO() {}
 	
 	public String getReservationNumber() {
 		return reservationNumber;

@@ -95,7 +95,7 @@ public class FlightController {
             }*/
             if (flight instanceof FlightDTO) {
                 httpHeaders.setContentType(MediaType.APPLICATION_XML);
-                return new ResponseEntity<>(flight, HttpStatus.OK);
+                return new ResponseEntity<>(flight,httpHeaders, HttpStatus.OK);
             }
             else{
                 httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -112,7 +112,7 @@ public class FlightController {
             } else{
             //(flight != null) {
             httpHeaders.setContentType(MediaType.APPLICATION_XML);
-            return new ResponseEntity<>(flight, HttpStatus.OK);
+            return new ResponseEntity<>(flight,httpHeaders, HttpStatus.OK);
             }/* else {
                 BadRequestDTO badRequest = BaseController.formBadRequest("400", "Sorry, due to some issue, flight couldn't be created.");
                 return new ResponseEntity<>(badRequest, HttpStatus.BAD_REQUEST);

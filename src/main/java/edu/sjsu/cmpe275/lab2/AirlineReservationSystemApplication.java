@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Start point of application
  * The spring boot server will start from here.
  */
 @SpringBootApplication

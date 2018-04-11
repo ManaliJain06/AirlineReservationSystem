@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlType;
 @JsonTypeName("BadRequest")
 @JsonTypeInfo(include= JsonTypeInfo.As.WRAPPER_OBJECT,use= JsonTypeInfo.Id.NAME)
 @XmlRootElement(name = "BadRequest")
-@XmlType(propOrder = {"code", "msg"})
 public class BadRequestDTO {
 	
 	private String code;
@@ -26,5 +25,4 @@ public class BadRequestDTO {
 	public String getMsg() {
 		return msg;
 	}
-
 }
